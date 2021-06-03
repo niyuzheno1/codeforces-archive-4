@@ -1,0 +1,22 @@
+//no-unlocked
+int totalcases, w[5d3+10], u[];
+int A[], B[], marked[];
+int ans[], asz;
+{ 
+    rd(totalcases);
+    rep(totalcases){
+        asz = 0;
+        int @n;
+        rd(w(n));
+        int @k;
+        rd(u(k));
+        int @m;
+        rd((A--,B--)(m));
+        rep(i, 5009) marked[i] = 0;
+        rep(i, k) marked[u[i]] = 1;
+        rep(i, 1, n+1) if(!marked[i]) ans[asz++] = i;
+        wt(asz, ans(asz));
+        wt(n);
+        rep(i, 1, n+1) wt(1, i);
+    }
+}

@@ -1,0 +1,45 @@
+{
+  "editor.semanticTokenColorCustomizations": {
+      "enabled": true, // enable for all themes
+      "rules": {
+          "*.static": {
+              "foreground": "#ff0000",
+              "fontStyle": "bold"
+          },
+          "type": {
+              "foreground": "#00aa00"
+          },
+          "definition" : {
+            "foreground" : "#075391",
+            "fontStyle": "bold"
+          },
+          "referenced.function" : {
+            "foreground": "#00aa00",
+            "fontStyle": "bold"
+           },
+          "referenced.variable" : {
+              "foreground" : "#800080",
+              "fontStyle": "bold"
+          },
+          "property" : {
+              "foreground": "#f4d47c"
+          }
+      }
+  },
+  "files.associations": {
+    "ios": "cpp",
+    "random": "cpp",
+    "iosfwd": "cpp",
+    "bitset": "cpp",
+    "string": "cpp",
+    "regex": "cpp",
+    "xlocale": "cpp",
+    "xstring": "cpp",
+    "xhash": "cpp",
+    "xtree": "cpp",
+    "xutility": "cpp",
+    "iomanip": "cpp",
+    "xiosbase": "cpp"
+}
+}
+

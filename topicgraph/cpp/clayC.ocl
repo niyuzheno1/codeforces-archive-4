@@ -1,0 +1,48 @@
+//no-unlocked
+int n, m;
+int A[5d5+10], B[], esz, vis[1d6+10], osz, a[], ans[];
+
+void add_edge(int x, int y){
+    arrInsert(esz, esz, A, x, B, y);
+}
+graph g;
+
+
+int dfs(int x){
+    if(vis[x]){
+        return 0;
+    }
+    a[osz++] = x;
+    vis[x] = 1;
+    int ret = 0;
+    if(x >= n) ret = 0;
+    else ret = 1;
+    rep[g.edge[x]](i, g.es[x]) {
+        auto tmp = dfs(i);
+        ret += tmp;
+    }
+    return ret;
+}
+
+
+{ 
+    rd(n, m);
+    rep(i, m){
+        int gid = i + n;
+        int k; rd(k);
+        rep(j, k){
+            int x; rd(x);
+            --x;
+            add_edge(x, gid);
+        }
+    }
+    g.setEdge(n+m, esz, A, B);
+    rep(i, n){
+        if(!vis[i]){
+            osz = 0;
+            int res = dfs(i);
+            rep(j, osz) ans[a[j]] = res;
+        }
+    }
+    wt(ans(n));
+}

@@ -1,0 +1,26 @@
+//no-unlocked
+int m,s[1d3+10];
+int b[1d6+10];
+int n, ans[4d3+10];
+{ 
+    rd(m, s(m));
+    bool sol = true;
+    rep(i,m) b[s[i]] = 1;
+    rep(i, m){
+        rep(j, m){
+            if(b[gcd(s[i], s[j])] ==0 ){
+                sol = false;
+                wt(s[i], s[j]);
+                break;
+            }
+        }
+        if(!sol){
+            break;
+        }
+    }
+    if(sol){
+        wt(1);
+    }else{
+        wt(-1);
+    }
+}

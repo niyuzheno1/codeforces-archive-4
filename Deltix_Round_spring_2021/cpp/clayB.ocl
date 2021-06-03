@@ -1,0 +1,32 @@
+//no-unlocked
+
+int ops[7];
+int n, a[1d4];
+int * b;
+int ansx[5d3+10], ansy[5d3+10], ansz[5d3+10], asz;
+{ 
+    ops[0] = 1; ops[1] = 2; ops[2] = 1; ops[3] = 1; ops[4] = 2; ops[5] = 1; 
+    REP(rd_int()){
+        b = &a[1];
+        rd(n, b(n));
+        asz = 0;
+        rep(i, 1, n+1, 2){
+            rep(j, 6){
+                ansx[asz] = ops[j];
+                ansy[asz] = i;
+                ansz[asz] = i+1;
+                ++asz;
+            }
+        }
+        wt(asz);
+        rep(i, asz)  wt(ansx[i], ansy[i], ansz[i]);
+        rep(i, asz){
+            if(ansx[i] == 1){
+                a[ansy[i]] = a[ansy[i]]  +a[ansz[i]];
+            }else{
+                a[ansz[i]] = a[ansz[i]] - a[ansy[i]]  ;
+            }
+        }
+        //wt(b(n));
+    }
+}

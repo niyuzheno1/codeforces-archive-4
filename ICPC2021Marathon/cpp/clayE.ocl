@@ -1,0 +1,132 @@
+//no-unlocked
+const int dbg = 0;
+int totalcases, n, k, m;
+int w[5d3+10], u[], A[], B[], marked[], backmarked[], ans[], asz, rsz, in[], out[], reg[];
+int firstfilled[];
+VI regions[];
+graph g;
+int dep[], vx[], pa[];
+bool vis[];
+
+void breakpoint(){
+    if(dbg){
+        //__asm int 3;
+    }
+}
+
+bool mark(int x){
+    if(x == -1) return false;
+    return marked[x] || backmarked[x];
+}
+
+void dfs(int x, int par){
+    if(x == 7) breakpoint();
+    if(vis[x]) return;
+    vis[x] = 1;
+    int nx = par;
+    if(par == -1 || firstfilled[par] == 1) nx = x;
+    if(out[nx] > 1) nx = -1;
+    bool flag = false;
+    if(nx != -1){
+        if(!mark(nx) && reg[nx] == -1){
+            backmarked[nx] = 1;
+            regions[rsz].push_back(nx), reg[nx] = rsz++;
+            flag = true;
+        }else{
+            if(reg[x] != -1) nx = -1;
+            if(in[x] == 1 && out[x] == 1 && nx != x && reg[x] == -1){
+                regions[reg[nx]].push_back(x);
+                reg[x] = reg[nx];
+                flag = true;
+            }
+        }
+    }
+    if(!flag){
+        if(mark(x) && reg[x] == -1)   regions[rsz].push_back(x), reg[x] = rsz++;
+        if(mark(x))   nx = x;
+        if(out[nx] > 1)   nx = -1;
+        
+    }   
+    rep[g.edge[x]](i, g.es[x]) dfs(i, nx);
+}
+
+void dfs2(int x){
+    if(vis[x]) return;
+    vis[x] = 1;
+    if(reg[x] == -1){
+        if((in[x] != 1 || out[x] != 1)){
+            // do the fan-outs
+            vector<int> nvx;
+            vector<int> stopped;
+            vector<int> best;
+            vector<int> csum;
+            rep[g.edge[x]](i, g.es[x]) nvx.push_back(i);
+            int n = nvx.size();
+            regions[rsz].push_back(x), reg[x] = rsz++;
+            stopped.resize(n, 0); csum.resize(n, 0); best.resize(n, -1);
+            priority_queue<pair<int,int>> pq;
+            rep(i, n) pq.push(make_pair(i, csum[i]));
+            while(!pq.empty()){
+                auto x = pq.top(); pq.pop();
+                int idx = x.first;
+                int v = nvx[idx]; int val = x.second;
+                if(in[v] > 1 || out[v] > 1 || mark(v)) stopped[idx] = 1;
+                if(stopped[idx]) continue;
+                csum[idx] += w[v];
+                nvx[idx] = g.edge[v][0]; // next vertex
+                pq.push(make_pair(idx, csum[idx]));
+                int umax = max(csum(n));
+                int umin = min(csum(n));
+                if(double(umin)/ double(umax) > 0.9) { rep(i, n) best[i] = nvx[i];}
+            }
+            bool good = true;
+            rep(i, n) if(best[i] == -1) good = false;
+            if(good){
+                rep(i, g.es[x]) nvx[i] = g.edge[x][i];
+                rep(i, n){
+                    int t = nvx[i];
+                    while(t != best[i]){
+                        regions[reg[x]].push_back(t); reg[t] = reg[x];
+                        t = g.edge[t][0];
+                    }
+                } 
+            }
+        }
+    }
+    rep[g.edge[x]](i, g.es[x]) dfs2(i);
+}
+
+
+{ 
+    rd(totalcases);
+    rep(tcases, totalcases){
+        if(dbg) wt("Case ", tcases, ":");
+        rep(i, rsz) regions[i].clear();        
+        rep(i, n) pa[i] = vx[i] = w[i] = u[i] = vx[i] = A[i] = B[i] = ans[i] =  marked[i] = backmarked[i] = in[i] = out[i]= dep[i] = vis[i] =  reg[i] =  0;
+        memset(firstfilled, 0, sizeof(firstfilled));
+        memset(reg, 0xff, sizeof(reg));
+        rsz =0;
+        asz = 0;
+        rd(n, w(n), k, (u--)(k), m, (A--,B--)(m) );
+        g.setDirectEdge(n, m, A, B);
+        rep(i, m) ++out[A[i]], ++in[B[i]];
+        rep(i, k) ++marked[u[i]];
+        rep(i,n) if((in[i] != 1 || out[i] != 1) && !mark(i)) backmarked[i] = 1;
+        dfs2(0);
+        rep(i, n) vis[i] = 0;
+        rep(i, n) if(reg[i] != -1) firstfilled[i] = 1;
+        dfs(0, -1);
+        rep(i, n) if(backmarked[i]) ans[asz++] = i;
+        rep(i, asz) ++ans[i];
+        wt(asz, ans(asz));
+        wt(rsz);
+        rep(i,rsz){
+            VI & y = regions[i];
+            asz = 0;
+            rep(j, y.size()){
+                ans[asz++] = y[j]+1;
+            }
+            wt(asz, ans(asz));
+        }
+    }
+}

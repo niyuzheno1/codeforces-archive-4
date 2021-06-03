@@ -1,0 +1,19 @@
+{
+    "files.associations": {
+        "ios": "cpp",
+        "random": "cpp",
+        "iosfwd": "cpp",
+        "bitset": "cpp",
+        "string": "cpp",
+        "regex": "cpp",
+        "xlocale": "cpp",
+        "xstring": "cpp",
+        "filesystem": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "vector": "cpp",
+        "forward_list": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp"
+    }
+}

@@ -1,0 +1,1 @@
+python %CFTOOL%\ce.py %1 %2

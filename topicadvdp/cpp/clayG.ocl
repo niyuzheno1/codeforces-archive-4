@@ -1,0 +1,24 @@
+//no-unlocked
+ll n, a[1d5+10], dp[], pre[];
+
+segtree<ll> t;
+
+{ 
+    rd(n, a(n-1));
+    a[n-1] = n;
+    dimcomp2 dim(n+2,n+2);
+    t.walloc(n);
+    t.setN(n, 1, 0);
+    rep(i,n)t[i] = -dim((a[i]-1),i);
+    t.build();
+    rrep(i, n-1){
+        ll v = t.getMinInd(i+1, a[i]);
+        pre[i] = v;
+    }
+    ll ans = 0;
+    rrep(i, n-1){
+        dp[i] = n-1-i + dp[pre[i]] - (a[i]-1 - pre[i]);
+        ans += dp[i];
+    }
+    wt(ans);
+}

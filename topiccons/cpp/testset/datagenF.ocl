@@ -1,0 +1,10 @@
+#include "random_array.hpp"
+
+//wt(rnd.next("one|two|three"));
+int main(int argc, char ** argv){
+    registerGen(argc, argv, 1);
+    int n = rnd.next(1, 1d3);
+    auto x = getarray(n, 1,  1d6);
+    wt(n);
+    wt(x(n));
+}

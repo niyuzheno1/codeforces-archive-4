@@ -1,0 +1,46 @@
+//no-unlocked
+int n;
+ll x;
+
+int dp[1d6];
+
+
+
+bool dfs(ll x){
+    if(x < 1d6 && dp[x] != -1){
+        return dp[x];
+    }
+    if(x <= 0){
+        return if[x < 0, 0, 1];
+    }
+    bool ret = false;
+    ll cur = 11, prev = -1;
+    rep(i, 0, 12){
+        if(cur > x){
+            break;
+        }
+        prev = cur;
+        cur *= 10; cur += 1;
+    }
+    if(prev == -1) return false;
+    ret = ret || dfs(x % prev);
+    int u = (x % prev) + cur;
+    if(u < x) ret = ret || dfs(u);
+    if(x < 1d6){
+        dp[x] = ret;
+    }
+    return ret;
+}
+
+rep(i,strlen(\"${1}\")) ${2}[\"${1}\"] = i;
+
+{ 
+    memset(dp, 0xff, sizeof(dp));
+    rep(i, 1d6) dfs(i);
+    rd(n);
+    rep(n){
+        rd(x);
+        wt(if[dfs(x), "YES", "NO"]);
+    }
+  
+}

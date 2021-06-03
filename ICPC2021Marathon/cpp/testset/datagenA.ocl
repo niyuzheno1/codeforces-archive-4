@@ -1,0 +1,66 @@
+#include "random_array.hpp"
+//generator one
+//wt(rnd.next("one|two|three"));
+int A[5d3+10], B[], C[], esz;
+int in[], out[], w[], u[], k;
+int curv = 1;
+VI prevx, curx;
+
+void generatecase(){
+    esz = 0;
+    memset(in, 0, sizeof(in)); memset(out, 0, sizeof(out)); memset(A, 0, sizeof(A)); memset(B, 0, sizeof(B)); memset(C, 0, sizeof(C));
+    memset(w, 0, sizeof(w));memset(u, 0, sizeof(u));
+    k = 0;
+    curx.clear(); prevx.clear();
+    curv = 1;
+    int n = 10;
+    int m = n;
+    rep(i, 1d9){
+        if(n == 0) break;
+        int delta = rnd.next(1,n);
+        // bug at intellisense 
+        rep(j, delta) curx.push_back(j + curv);
+        rep(i, prevx.size()){
+            rep(j, curx.size()){
+                int X = prevx[i];
+                int Y = curx[j];
+                if( rnd.next(1,10) < 5){
+                    arrInsert(esz, esz, A, X, B, Y);
+                }
+            }
+        }
+        prevx = curx;
+        curx.clear();
+        n -= delta;
+        curv += delta;
+    }
+    int source = 0, sink = m+1;
+    rep(i, esz) ++in[B[i]];
+    rep(i, esz) ++out[A[i]];
+    rep(i, 1, m+1) {
+        if(in[i] == 0){
+            arrInsert(esz, esz, A, source, B, i);
+        }
+        if(out[i] == 0){
+            arrInsert(esz, esz, A, i, B, sink);
+        }
+    }
+    sortA(esz, A, B);
+    rep(i, esz) ++A[i], ++B[i];
+    n = 0;    
+    rep(i, esz) n>?=A[i], n>?=B[i];
+    rep(i, n) w[i] = rnd.next(1, 5000);
+    rep(i, n) if(rnd.next(1, 10) < 5) u[k++] = i+1;
+    wt(n, w(n));
+    wt(k, u(k));
+    wt(esz);
+    rep(i, esz) wt(A[i], B[i]);
+}
+int main(int argc, char ** argv){
+    registerGen(argc, argv, 1);
+    int totalcases = 10;
+    wt(totalcases);
+    rep(totalcases){
+        generatecase();
+    }   
+}

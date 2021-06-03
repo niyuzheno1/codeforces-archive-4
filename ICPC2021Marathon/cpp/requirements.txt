@@ -1,0 +1,2 @@
+[X] a region has at least one marked node;
+[X] if a full path contains a node of a region, then the path contains all marked nodes of the region;

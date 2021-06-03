@@ -1,0 +1,429 @@
+//no-unlocked
+
+//no-unlocked
+//working_memory=200m
+#include <random>
+#include <cstring>
+#define Treap TreapDa<Data>
+/*iterator*/
+template<class RandomDevice, class Data, class UpdateData>
+class treap_iterator {
+public:
+    treap_iterator() {
+        kth = 1;
+        from = nullptr;
+    }
+    treap_iterator(int x, void* master,void * from) {
+        kth = x;
+        this->master = master;
+        this->from = from;
+    }
+    typedef bidirectional_iterator_tag iterator_category;
+    typedef Data value_type;
+    typedef Data difference_type;
+    typedef const Data * pointer;
+    typedef const Data& reference;
+    int kth;
+    void* master;
+    void* from;
+    treap_iterator&  operator++() {
+        ++kth;
+        return *this;
+    }
+    treap_iterator& operator--() {
+        --kth;
+        return *this;
+    }
+    treap_iterator<RandomDevice, Data, UpdateData>::reference operator*() {
+        auto master = (treap_master_type*)lhs.master;
+        auto subt = (Treap*)lhs.from;
+        subt = (Treap*)master->getparent((void*) subt);
+        if (lhs.kth <= 0 || lhs.kth > master->size((void*) subt)) {
+            typename treap_iter::value_type d; 
+            return d;
+        }
+        else 
+            return *(treap_iterator<RandomDevice, Data, UpdateData>::pointer) master->search_val(subt, lhs.kth);
+    }
+};
+/*Treap Data*/
+template<class Data>
+class TreapDa {
+public: 
+  int priority, id, subtreeSize;
+  Data data, subtreeData;
+  void** kids;
+  void* par;
+  TreapDa(){
+    priority = 0;
+    id = 0;
+    subtreeSize = 0;
+    data = subtreeData = NULL; 
+    kids = NULL;
+    par = NULL;
+  }
+};
+#define treap_iter treap_iterator<RandomDevice, Data, UpdateData>
+/*Treap Operations*/
+template<class RandomDevice, class Data, class UpdateData>
+class TreapOp {
+  RandomDevice * rande;
+  UpdateData * upda;
+  void * node_pool;
+  int cur, lmt;
+  Data asnull; 
+  void* croot;
+
+public:
+  void setparent(void * a, void * b){
+      if(b == NULL) return;
+      auto tb = (Treap*)b;
+      tb->par = a;
+  }
+  void reset(int nsz){
+      Treap * tmp_node_pool = NULL;
+      walloc1d(&tmp_node_pool, nsz);
+      node_pool = (void*)tmp_node_pool;
+      cur = 0;
+      lmt = nsz;
+  } 
+  void * allocate_new_node(){
+      if(cur >= lmt) reset(lmt<<1);
+      Treap * tmp_node_pool = (Treap * )node_pool;
+      return (void*)&tmp_node_pool[cur++];
+  }
+  
+  TreapOp(){
+    cur = 0; lmt = 0;
+    upda = new UpdateData(); 
+    rande = new RandomDevice();
+    croot = nullptr;
+  }
+  ~TreapOp(){
+      delete upda;
+      delete rande;
+  }
+  void * get_new_node(Data & data, int id){
+    Treap * root = (Treap *) allocate_new_node();
+    root->data = data;
+    root->id = id;
+    root->priority = rande->next();
+    root->subtreeData = Data();
+    walloc1d(&root->kids, 2);
+    root->kids[0] = root->kids[1] = 0;
+    this->recalc(root);
+    return (void*)root;
+  }  
+  void * getparent(void * x){
+    auto me = (Treap*) x;
+    while(me->par) me =  (Treap*)me->par;
+    return me; 
+  }
+  void split(void ** res, void * x, int nInLeft) {
+    auto me = (Treap*) x;
+    res[0] = res[1] = NULL;
+    if (me==NULL) return ;
+    this->prop(me);
+    if (this->size(me->kids[0])>=nInLeft) {
+      void * leftRes[2];
+      setparent(NULL, me->kids[0]);
+      this->split(leftRes, me->kids[0], nInLeft);
+      setparent(me , leftRes[1]);
+      me->kids[0]=leftRes[1];
+      this->recalc(me);
+      res[0] = leftRes[0]; res[1] = me;
+      return;
+    }
+    else {
+      nInLeft=nInLeft-(this->size(me->kids[0]))-1;
+      void * rightRes[2];
+      setparent(NULL, me->kids[1]);
+      this->split(rightRes, me->kids[1], nInLeft);
+      me->kids[1]=rightRes[0];
+      setparent(me , rightRes[0]);
+      this->recalc(me);
+      res[0] = (void *)me; res[1] = (void *)rightRes[1];
+      return;
+    }
+  }
+    
+  
+  void * merge(void * lll, void * rrr) {
+    auto l = (Treap*) lll;
+    auto r = (Treap*) rrr;
+    if (l==NULL) return r;
+    if (r==NULL) return l;
+    this->prop(l); this->prop(r);
+    if (l->priority<r->priority) {
+      setparent(NULL, l->kids[1]);
+      l->kids[1]=this->merge(l->kids[1], r);
+      setparent(l , l->kids[1]);
+      this->recalc(l);
+      return l;
+    }
+    else {
+      setparent(NULL, r->kids[0]);
+      r->kids[0]=this->merge(l, r->kids[0]);
+      setparent(r , r->kids[0]);
+      this->recalc(r);
+      return r;
+    }
+  }
+  
+  
+  //MUST CALL PROP BEFORE RECALCING!
+  void recalc(void * x) {
+    auto me = (Treap*) x;
+    if (me==NULL) return;
+    assert(upda->check((void*)me)); // sanitation check
+    upda->recalibrate((void*)me);
+  }
+  void prop(void * x) {
+    auto me = (Treap*) x;
+    if (me==NULL) return;
+    //reset subtreedata max in recalc
+    upda->propagate((void*)me);
+    this->recalc(me);
+  }
+  int size(void * x) {
+    auto t = (Treap*) x;
+    if(t == NULL) return 0;
+    return t->subtreeSize;
+  }  
+
+  void * search(void* x, int k) {
+    auto me = (Treap*)x;
+    if (k < 1 || k > size(x)) return nullptr;
+    int leftChildSize = size(me->kids[0]);
+    if (k <= leftChildSize) return search(me->kids[0], k);
+    else if (k == leftChildSize + 1) return x;
+    else return search(me->kids[1], k - leftChildSize - 1);
+    }
+
+    void * search_val(void* x, int k) {
+        auto ans = (Treap*)search(x, k);
+        if (ans == nullptr) { return (void*)&asnull; };
+        return (void*) &ans->data;
+    }
+
+    int lower_bound(void * x,  void * da) {
+        auto me = (Treap*)x;
+        if (x == NULL) return 0;
+        if (upda->compare((void*)&me->data, da) < 0) {
+            return lower_bound(me->kids[1], da) + size(me->kids[0]) + 1;
+        }
+        else {
+            return lower_bound(me->kids[0], da);
+        }
+    }
+    treap_iter lower_bound(void* da) {
+        int xx = lower_bound(croot, da);
+        return treap_iter(xx, (void*)this, croot);
+    }
+    treap_iter upper_bound(void* da) {
+        int xx = upper_bound(croot, da);
+        return treap_iter(xx, (void*)this, croot);
+    }
+    int upper_bound(void* x, void* da) {
+        auto me = (Treap*)x;
+        if (x == NULL) return 0;
+        if (upda->compare((void*)&me->data, da) <= 0) {
+            return upper_bound(me->kids[1], da) + size(me->kids[0]) + 1;
+        }
+        else{
+            return upper_bound(me->kids[0], da);
+        }
+    }
+    void * insert(void * root, int pos, int & idx, void* da) {
+        void* parts1[2];
+        this->split(parts1, root, pos);
+        void * x = this->get_new_node(*(Data*)da, idx++);
+        return this->merge(parts1[0], this->merge(x, parts1[1]));
+    }
+    void* erase(void* root, int pos) {
+        void * parts1[2];
+        void * parts2[2];
+        this->split(parts1, root, pos-1);
+        this->split(parts2, parts1[1], 1);
+        return this->merge(parts1[0], parts2[1]);
+    }
+    void* erase(void * x) {
+        treap_iter* y = (treap_iter*)x;
+        y->from = this->erase(y->from, y->kth);
+        croot = y->from;
+        return y->from;
+    }
+    treap_iter insert(void * x) {
+        if (croot == nullptr) {
+            croot = get_new_node(*(Data*)x, 0);
+            return this->begin();
+        }
+        int idx0 = 0, y;
+        croot = this->insert(croot, idx0, x, y);
+        return treap_iter(y+1, (void*)this, croot);
+    }
+    void * insert(void* root, int& idx, void* da) {
+        return this->insert(root, this->lower_bound(root, da), idx, da);
+    }
+    void* insert(void* root, int& idx, void* da, int & x) {
+        x = this->lower_bound(root, da);
+        return this->insert(root, x , idx, da);
+    }
+    void focus(void* rt) {
+        croot = this->getparent(rt);
+    }
+    treap_iter begin() {
+        return treap_iter(1, (void *) this, croot);
+    }
+    treap_iter end() {
+        return treap_iter(size(croot)+1, (void*)this, croot);
+    }
+};
+
+#define treap_master_type TreapOp<RandomDevice, Data, UpdateData>
+
+template<class RandomDevice, class Data, class UpdateData>
+bool operator == (const treap_iterator<RandomDevice, Data, UpdateData>& lhs, const treap_iterator<RandomDevice, Data, UpdateData>& rhs) {
+    return lhs.kth == rhs.kth;
+}
+
+template<class RandomDevice, class Data, class UpdateData>
+bool operator != (const treap_iterator<RandomDevice, Data, UpdateData>& lhs, const treap_iterator<RandomDevice, Data, UpdateData>& rhs) {
+    return !(lhs.kth == rhs.kth);
+}
+
+/*Random Device is here */
+
+class RDevice{
+public:
+    random_device randomD;
+     mt19937 rng;
+    std::uniform_int_distribution<int> * uid;
+    RDevice(){
+      mt19937 rngx{randomD()};
+      rng = rngx;
+      uid = new std::uniform_int_distribution<int>(1,100000);
+    }
+    ~RDevice(){
+        delete uid;
+    }
+  int next(){
+    return (*uid)(rng);
+  }
+};
+
+const ll is_query = -(1LL<<62);
+/*Our Data stored in each node in the Treap*/
+
+class Gata{
+public:
+    ll m, b;
+    Gata(){
+        m = b = 0;
+    }
+    Gata(ll _m, ll _b){
+        m = _m;
+        b = _b;
+    }
+};
+
+
+
+#define Trea TreapDa<Gata>
+#define TMaster TreapOp<RDevice,Gata,UpdateD>
+
+
+class UpdateD {
+public:
+    UpdateD() {
+    }
+    bool check(void* x) {
+        return true;
+    }
+    void recalibrate(void* x) {
+        int i;
+        Trea* me = (Trea*)x;
+        me->subtreeSize = 1;
+        for (i = (0); i < (2); i++) {
+            auto t = (Trea*)me->kids[i];
+            if (t == NULL) {
+                continue;
+            }
+            me->subtreeSize += t->subtreeSize;
+        }
+    }
+    void propagate(void* x) {
+    }
+    if (rhs.b != is_query) return lhs.m < rhs.m;
+    const line* s = lhs.succ();
+    if (!s) return 0;
+    ll x = rhs.m;
+    return lhs.b - s->b < (s->m - lhs.m) * x;
+    int compare(void* _x, void* _y) {
+        Gata* x = (Gata*)_x, * y = (Gata*)_y;
+        if(y->b != is_query) return x->m < y->m;
+    }
+};
+
+TMaster treap;
+
+
+
+
+struct dynamic_hull { // will maintain upper hull for maximum
+    const ll inf = LLONG_MAX;
+    bool bad(void * yy) {
+        iterator * u = (iterator *)yy;
+        iterator y = *u;
+        auto z = next(y);
+        if (y == begin()) {
+            if (z == end()) return 0;
+            return y->m == z->m && y->b <= z->b;
+        }
+        auto x = prev(y);
+        if (z == end()) return y->m == x->m && y->b <= x->b;
+
+		/* compare two lines by slope, make sure denominator is not 0 */
+        ll v1 = (x->b - y->b);
+        if (y->m == x->m) v1 = x->b > y->b ? inf : -inf;
+        else v1 /= (y->m - x->m);
+        ll v2 = (y->b - z->b);
+        if (z->m == y->m) v2 = y->b > z->b ? inf : -inf;
+        else v2 /= (z->m - y->m);
+        return v1 >= v2;
+    }
+    void insert_line(ll m, ll b) {
+        auto y = insert({ m, b });
+        y->succ = [=] { return next(y) == end() ? 0 : &*next(y); };
+        if (bad((void*)&y)) { erase(y); return; }
+        while (next(y) != end()){
+            auto yy = next(y);
+            if(bad((void*)&yy)){
+                erase(next(y));
+            }else{
+                break;
+            }
+        }
+        while (y != begin()) {
+            auto yy = prev(y);
+            if(bad((void*)&yy)){
+                erase(prev(y));
+            }else{
+                break;
+            }
+        }
+    }
+    ll eval(ll x) {
+        line tmp;//(line) { x, is_query }
+        tmp.b = is_query;
+        tmp.m = x;
+        auto l = *lower_bound(tmp);
+        return l.m * x + l.b;
+    }
+};
+
+
+{
+    treap.reset(4d5+10);
+    
+}

@@ -1,0 +1,22 @@
+//no-unlocked
+int n, m, A[150010], B[];
+ll es[], vs[]; 
+unionFind dsu;
+set<int> s;
+{
+    rd(n, m, (A--,B--)(m));
+    dsu.walloc(n+1);
+    dsu.init(n+1);
+    rep(i, m) dsu(A[i], B[i]);
+    rep(i, n) ++vs[dsu(i)], s.insert(dsu(i));
+    rep(i, m) ++es[dsu(A[i])];
+    bool flag = true;
+    for(auto x: s){
+        if(vs[x]*(vs[x]-1LL)/2LL != es[x]){
+            flag = false;
+        }
+    }
+    wt(if[flag, "YES", "NO"]);
+    
+    
+}

@@ -1,0 +1,47 @@
+//no-unlocked
+int t;
+graph g;
+ll l[1d5+10], r[];
+int  u[], v[], n;
+ll f[1d5+10][2];
+int vis[1d5+10][2], ts;
+
+ll dfs(int x, int w){
+    if(g.es[x] == 0){
+        return 0;
+    }
+    int tg = (w==1)?w:0;
+    if(vis[x][tg] == ts) return f[x][tg];
+    vis[x][tg] = ts;
+    ll & ret = f[x][tg];
+    ret = 0;
+    ll curx = 0;
+    curx = if[w==1, l[x], r[x]];
+    rep[g.edge[x]](i, g.es[x]) {
+        ll retmax = 0;
+        rep(j,-1, 2){
+            if(j == 0) continue;
+            auto tmp = dfs(i, j);
+            int cury = 0;
+            cury = if[j==1, l[i], r[i]];
+            retmax >?= tmp + abs(curx - cury); 
+        }
+        ret += retmax;
+    }
+    return ret;
+}
+
+
+{ 
+    REP(rd_int()){
+        ++ts;
+        rd(n, (l,r)(n), (u--,v--)(n-1));
+        g.setEdgeRootedTree(n,n-1, u, v);
+        ll ans = 0;
+        rep(i, -1, 2){
+            if(i == 0) continue;
+            ans >?= dfs(0, i);
+        }
+        wt(ans);
+    }
+}

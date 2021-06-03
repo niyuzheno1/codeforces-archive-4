@@ -1,0 +1,26 @@
+//no-unlocked
+int n;
+ll a[2d5+10];
+{ 
+    rd(n, a(n));
+    ll curval = 0;
+    Heap<ll> h;
+    h.walloc(2d5+10);
+    h.init();
+    int cnt = 0;
+    rep(i, n){
+        if(a[i] + curval >= 0){
+            h.push(a[i]); ++cnt;
+            curval += a[i];
+        }else{
+            if(h.size == 0) continue;
+            if(a[i] > h.top()){
+                curval -= h.top();
+                h.pop();
+                curval += a[i];
+                h.push(a[i]);
+            }
+        }
+    }
+    wt(cnt);
+}

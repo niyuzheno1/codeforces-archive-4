@@ -1,0 +1,34 @@
+//no-unlocked
+graph g;
+int A[1d5+10], B[], esz, in[], out[], vx[], vis[];
+int A2[], B2[], esz2;
+ll C[];
+
+ll c[];
+
+void add_edge(int x, int y){
+    arrInsert(esz, esz, A, x, B, y);
+}
+
+ll dfs(int x){
+    if(vis[x]){
+        return ll_inf;
+    }
+    vis[x] = 1;
+    ll ret = c[x];
+    rep[g.edge[x]](i, g.es[x]) {
+        auto tmp = dfs(i);
+        ret <?= tmp;
+    }
+    return ret;
+}
+
+
+int n, res[];
+{ 
+    rd(n, esz, c(n), (A--,B--)(esz));
+    g.setEdge(n, esz, A, B);
+    ll ans = 0;
+    rep(i, n)  if(!vis[i]) ans += dfs(i);
+    wt(ans);
+}

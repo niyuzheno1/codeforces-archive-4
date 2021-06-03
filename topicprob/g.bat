@@ -1,0 +1,1 @@
+python C:\Users\zachn\OneDrive\Documents\CFTOOLS\gcpbi.py %1

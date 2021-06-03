@@ -1,0 +1,27 @@
+0:00:00 Intro
+0:20:28 Attempting F
+0:31:08 Submitting
+0:31:16 Submitting F
+0:32:12 Submitting F
+0:32:54 Attempting G
+1:06:47 Submitting G
+1:11:39 Submitting G
+1:16:25 Intermission
+1:21:34 Welcome_Back
+1:35:12 Attempting H
+1:45:06 Submitting H
+1:46:48 Attempting I
+2:20:04 Submitting I
+2:25:10 Submitting I
+2:25:45 Submitting I
+2:30:36 Intermission Again
+2:35:16 Attempting J
+3:18:18 Submitting J
+3:19:15 Submitting J
+3:19:39 Submitting J
+3:20:07 Submitting J
+3:25:34 Submitting J
+3:29:49 Submitting J
+3:41:50 Attempting K
+4:03:17 Submitting K
+5:07:29 Submitting K

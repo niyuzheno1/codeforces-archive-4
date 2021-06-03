@@ -1,0 +1,56 @@
+//no-unlocked
+//interactive
+int n;
+char resp[5];
+int good[510][510];
+int ask(int r1, int c1, int r2, int c2){
+    wt("?", r1, c1, r2, c2);
+    rd(resp);
+    if(resp[0] == 'Y') return 1;
+    return 0;
+}
+int fh(int x, int y){
+    return ask(x, y, n, n);
+}
+int sh(int x, int y){
+    return ask( 1, 1, x, y);
+}
+int offdiagnoal(int x, int y){
+    return x+y == n+1;
+}
+{ 
+    rd(n);
+    good[1][1] = 1;
+    good[n][n] = 1;
+    //fh
+    int curx, cury;
+    (curx, cury) = (1,1);
+    while(!offdiagnoal(curx, cury)){
+        if(cury < n && fh(curx, cury + 1)){
+            cury = cury+1;
+        }else{
+            curx = curx + 1;
+        }
+        good[curx][cury] = 1;
+    }
+    (curx, cury) = (n,n);
+    while(!offdiagnoal(curx, cury)){
+        if(curx > 1 && sh(curx-1, cury)){
+            curx = curx-1;
+        }else{
+            cury = cury - 1;
+        }
+        good[curx][cury] = 1;
+    }
+    //print the path by going from top left to bottom right
+    (curx, cury) = (1,1);
+    string ans = "";
+    while( curx != n || cury != n){
+        if(cury < n && good[curx][cury+1])
+            cury = cury + 1, ans += "R";
+        else
+            curx = curx + 1, ans += "D";
+    }
+    wt("!", ans.c_str());
+    exit(0);
+}

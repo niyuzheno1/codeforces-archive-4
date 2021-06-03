@@ -1,0 +1,26 @@
+{
+    "files.associations": {
+        "ios": "cpp",
+        "random": "cpp",
+        "iosfwd": "cpp",
+        "bitset": "cpp",
+        "string": "cpp",
+        "regex": "cpp",
+        "xlocale": "cpp",
+        "xstring": "cpp",
+        "numeric": "cpp",
+        "algorithm": "cpp",
+        "chrono": "cpp",
+        "limits": "cpp",
+        "utility": "cpp",
+        "valarray": "cpp",
+        "xiosbase": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "map": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp"
+    }
+}

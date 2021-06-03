@@ -1,0 +1,15 @@
+//no-unlocked
+ll n, a[1d5+10];
+ll b[], bsz;
+{ 
+    REP(rd_int()){
+        rd(n, a(n));
+        bsz = 0;
+        sortA(n, a);
+        rep(i, n) if(a[i] <= 0) b[bsz++] = a[i];
+        ll mingap = ll_inf;
+        rep(i, 1, bsz) mingap <?= b[i]-b[i-1];
+        rep(i, 1, n) if(a[i] > 0 && a[i] <= mingap) ++bsz, break;
+        wt(bsz);
+    }
+}

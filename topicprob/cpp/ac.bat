@@ -1,0 +1,1 @@
+python3 C:\Users\zachn\OneDrive\Documents\CFTOOLS\recording.py "Solved" %1

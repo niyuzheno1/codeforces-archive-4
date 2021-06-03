@@ -1,0 +1,22 @@
+//no-unlocked
+int m,s[1d3+10];
+int b[1d6+10];
+int n, ans[4d3+10];
+{ 
+    rd(m, s(m));
+    bool sol = true;
+    rep(i,m) b[s[i]] = 1;
+    int g = gcd(s(m));
+    wt(g);
+    if(!b[g]) sol = false;
+    rep(i, 2*m){
+        if(i % 2 == 0) ans[i] =  s[i/2];
+        else ans[i] = g;
+    }
+    n = 2*m;
+    if(sol){
+        wt(1);
+    }else{
+        wt(-1);
+    }
+}

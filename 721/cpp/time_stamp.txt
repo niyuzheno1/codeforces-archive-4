@@ -1,0 +1,22 @@
+0:00:00 Intro
+0:01:13 Attempting AA
+0:01:20 Attempting A
+0:05:22 Testing A
+0:06:42 Testing A
+0:06:55 Submitting A
+0:07:44 Checking
+0:18:07 Attempting B1
+0:22:49 Testing B1
+0:23:16 Testing B1
+0:23:28 Submitting B1
+0:23:57 Checking
+0:27:40 Submitting B1
+0:27:56 Checking
+0:40:18 Submitting B1
+0:40:40 Checking
+0:41:38 Attempting C
+1:16:47 Submitting C
+1:17:07 Checking C
+1:17:35 Submitting C
+1:17:46 Checking C
+1:18:22 Attempting D

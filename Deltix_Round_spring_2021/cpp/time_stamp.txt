@@ -1,0 +1,9 @@
+0:00:00 Intro
+1:41:51 Attempting A
+1:55:54 Submitting A
+1:56:37 Attempting B
+2:34:44 Submitting B
+2:35:29 Submitting C
+2:35:33 Attempting C
+2:52:34 Submitting C
+2:53:07 Attempting D

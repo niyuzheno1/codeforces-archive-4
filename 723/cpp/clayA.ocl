@@ -1,0 +1,21 @@
+//no-unlocked
+int n, a[60];
+int ans[], asz;
+{ 
+    REP(rd_int()){
+        rd(n, a(2*n));
+        n = 2 * n;
+        sortA(n, a);
+        int l = 0, r = n-1;
+        int curdir = -1;
+        asz = 0;
+        while(l <= r){
+            if(true) curdir = - curdir;
+            auto x = (curdir == 1) ? l : r; 
+            ans[asz++] = a[x];
+            if(curdir == 1) ++l; 
+            else --r;
+        }
+        wt(ans(asz));
+    }
+}

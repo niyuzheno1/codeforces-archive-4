@@ -1,0 +1,14 @@
+//no-unlocked
+{ 
+    int tcases;
+    rd(tcases);
+    rep(tcases){
+        int n;
+        rd(n);
+        int ans = 0;
+        rrep(i, 31){
+            if((n >> i)) ans = (1<<i)-1, break;
+        }
+        wt(ans);
+    }
+}

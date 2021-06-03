@@ -1,0 +1,86 @@
+//no-unlocked
+
+const ll is_query = -(1LL<<62);
+struct line {
+    ll m, b;
+    mutable function<const line*()> succ; // we can change to some function we want 
+    // so it is good if we can use this for segtree_rh_merge etc.
+};
+
+bool operator<(const line& lhs, const line& rhs)  {
+    if (rhs.b != is_query) return lhs.m < rhs.m;
+    const line* s = lhs.succ();
+    if (!s) return 0;
+    ll x = rhs.m;
+    return lhs.b - s->b < (s->m - lhs.m) * x;
+}
+
+struct dynamic_hull : public multiset<line> { // will maintain upper hull for maximum
+    const ll inf = LLONG_MAX;
+    bool bad(void * yy) {
+        iterator * u = (iterator *)yy;
+        iterator y = *u;
+        auto z = next(y);
+        if (y == begin()) {
+            if (z == end()) return 0;
+            return y->m == z->m && y->b <= z->b;
+        }
+        auto x = prev(y);
+        if (z == end()) return y->m == x->m && y->b <= x->b;
+
+		/* compare two lines by slope, make sure denominator is not 0 */
+        ll v1 = (x->b - y->b);
+        if (y->m == x->m) v1 = x->b > y->b ? inf : -inf;
+        else v1 /= (y->m - x->m);
+        ll v2 = (y->b - z->b);
+        if (z->m == y->m) v2 = y->b > z->b ? inf : -inf;
+        else v2 /= (z->m - y->m);
+        return v1 >= v2;
+    }
+    void insert_line(ll m, ll b) {
+        auto y = insert({ m, b });
+        y->succ = [=] { return next(y) == end() ? 0 : &*next(y); };
+        if (bad((void*)&y)) { erase(y); return; }
+        while (next(y) != end()){
+            auto yy = next(y);
+            if(bad((void*)&yy)){
+                erase(next(y));
+            }else{
+                break;
+            }
+        }
+        while (y != begin()) {
+            auto yy = prev(y);
+            if(bad((void*)&yy)){
+                erase(prev(y));
+            }else{
+                break;
+            }
+        }
+    }
+    ll eval(ll x) {
+        line tmp;//(line) { x, is_query }
+        tmp.b = is_query;
+        tmp.m = x;
+        auto l = *lower_bound(tmp);
+        return l.m * x + l.b;
+    }
+};
+int n;
+ll a[2d5+10], b[2d5+10], p[];
+ll pre(int x){
+    if(x < 0) return 0;
+    return p[x];
+}
+dynamic_hull cht;
+ll f[];
+{ 
+    rd(n, a(n), b(n));
+    rep(i, n) p[i] = if[i == 0, 0, p[i-1]] + a[i];
+    cht.insert_line(0, 0);
+    rep(i, 1, n){
+        f[i] = b[i] * pre(i) - cht.eval(b[i]);
+        cht.insert_line(pre(i-1), -f[i]);
+    }
+    wt(f(n));
+}

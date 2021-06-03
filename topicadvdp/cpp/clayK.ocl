@@ -1,0 +1,81 @@
+//no-unlocked
+bool init = true;
+dynamic_hull_min cht[4d5+10];
+int chtsz;
+struct em{
+    int id;
+    em(){
+        id = -1;
+    }
+    em(int x){
+        id = x;
+    }
+};
+ll fans, X; 
+em segtree_rh_merge(em a, em b){ 
+    if(init){
+        if(a.id == -1 && b.id == -1) return em(-1);
+        if(a.id == -1 || b.id == -1){
+            int cid = ((a.id == -1)? b.id : a.id);  
+            for(auto x : cht[cid].cht){
+                cht[chtsz].cht.insert_line(x.m, x.b);
+            }
+        }else{
+            for(auto x : cht[a.id].cht){
+                cht[chtsz].cht.insert_line(x.m, x.b);
+            }
+            for(auto x : cht[b.id].cht){
+                cht[chtsz].cht.insert_line(x.m, x.b);
+            }
+        }
+        return em(chtsz++);
+    }else{
+        if(a.id == -1 && b.id == -1) return em(-1);
+        if(a.id == -1 || b.id == -1){
+            int cid = ((a.id == -1)? b.id : a.id);  
+            fans <?= cht[cid].eval(X);
+        }else{
+            fans <?= cht[a.id].eval(X);
+            fans <?= cht[b.id].eval(X);
+        }
+        return em(-1);
+    }
+    
+}
+em segtree_rh_apply(int f, em a){ 
+    return a;
+}
+int segtree_rh_compose(int f, int g){ 
+    return 0;
+}
+segtree_rh<em, int> t;
+
+int n, a[1d5+10], m, x[], y[], p[];
+
+{ 
+    rd(n, a(n), m, (x,y--)(m));
+    rep(i, n) p[i] = a[i] + ((i > 0) ? p[i-1] : 0);
+    t.walloc(n);
+    t.setN(n, 1, 0);
+    int u = 0;
+    for(u=1;u<n;u*=2){
+        ;
+    }
+    rep(i, (u<<1)) t.val[i] = em(-1);
+    rep(i,n){
+        t[i] = chtsz;
+        cht[chtsz].insert_line(a[i], -p[i] + a[i] * i);
+        ++chtsz;
+    }
+    t.build();
+    init = 0;
+    rep(i, m){
+        int ans = p[y[i]];
+        fans = ll_inf;
+        X = x[i]-y[i];
+        auto u = t.get(max(0, y[i]-x[i]+1), y[i]+1);
+        if(u.id != -1) fans <?= cht[u.id].eval(X);
+        ans += fans;
+        wt(ans);
+    }
+}

@@ -1,0 +1,588 @@
+for more details please visit : https://codeforces.com/contest/1527/problems
+Processing math: 100%
+
+
+
+__
+
+![](//codeforces.org/s/73395/images/codeforces-logo-with-telegram.png)
+
+![In English](//codeforces.org/s/73395/images/flags/24/gb.png) ![По-
+русски](//codeforces.org/s/73395/images/flags/24/ru.png)
+
+  
+
+Codeforces Round #721 (Div. 2)
+
+The problem statement has recently been changed. View the changes.
+
+×
+
+A. And Then There Were K
+
+time limit per test
+
+1 second
+
+memory limit per test
+
+256 megabytes
+
+input
+
+standard input
+
+output
+
+standard output
+
+Given an integer n, find the maximum value of integer k such that the
+following condition holds:
+
+n & (n−1) & (n−2) & (n−3) & ... (k) = 0 where & denotes the bitwise AND
+operation.
+
+Input
+
+The first line contains a single integer t (1≤t≤3⋅104). Then t test cases
+follow.
+
+The first line of each test case contains a single integer n (1≤n≤109).
+
+Output
+
+For each test case, output a single integer — the required integer k.
+
+Example
+
+Input
+
+Copy
+
+    
+    
+    3
+    2
+    5
+    17
+    
+
+Output
+
+Copy
+
+    
+    
+    1
+    3
+    15
+    
+
+Note
+
+In the first testcase, the maximum value for which the continuous & operation
+gives 0 value, is 1.
+
+In the second testcase, the maximum value for which the continuous & operation
+gives 0 value, is 3. No value greater then 3, say for example 4, will give the
+& sum 0.
+
+  * 5&4≠0, 
+  * 5&4&3=0. 
+
+Hence, 3 is the answer.
+
+The problem statement has recently been changed. View the changes.
+
+×
+
+B1. Palindrome Game (easy version)
+
+time limit per test
+
+1 second
+
+memory limit per test
+
+256 megabytes
+
+input
+
+standard input
+
+output
+
+standard output
+
+The only difference between the easy and hard versions is that the given
+string s in the easy version is initially a palindrome, this condition is not
+always true for the hard version.
+
+A palindrome is a string that reads the same left to right and right to left.
+For example, "101101" is a palindrome, while "0101" is not.
+
+Alice and Bob are playing a game on a string s (which is initially a
+palindrome in this version) of length n consisting of the characters '0' and
+'1'. Both players take alternate turns with Alice going first.
+
+In each turn, the player can perform one of the following operations:
+
+  1. Choose any i (1≤i≤n), where s[i]= '0' and change s[i] to '1'. Pay 1 dollar. 
+  2. Reverse the whole string, pay 0 dollars. This operation is only allowed if the string is currently not a palindrome, and the last operation was not reverse. That is, if Alice reverses the string, then Bob can't reverse in the next move, and vice versa. 
+
+Reversing a string means reordering its letters from the last to the first.
+For example, "01001" becomes "10010" after reversing.
+
+The game ends when every character of string becomes '1'. The player who
+spends minimum dollars till this point wins the game and it is a draw if both
+spend equal dollars. If both players play optimally, output whether Alice
+wins, Bob wins, or if it is a draw.
+
+Input
+
+The first line contains a single integer t (1≤t≤103). Then t test cases
+follow.
+
+The first line of each test case contains a single integer n (1≤n≤103).
+
+The second line of each test case contains the string s of length n,
+consisting of the characters '0' and '1'. It is guaranteed that the string s
+is a palindrome and contains at least one '0'.
+
+Note that there is no limit on the sum of n over test cases.
+
+Output
+
+For each test case print a single word in a new line:
+
+  * "ALICE", if Alice will win the game, 
+  * "BOB", if Bob will win the game, 
+  * "DRAW", if the game ends in a draw. 
+
+Example
+
+Input
+
+Copy
+
+    
+    
+    2
+    4
+    1001
+    1
+    0
+    
+
+Output
+
+Copy
+
+    
+    
+    BOB
+    BOB
+    
+
+Note
+
+In the first test case of the example,
+
+  * in the 1-st move Alice has to perform the 1-st operation, since the string is currently a palindrome. 
+  * in the 2-nd move Bob reverses the string. 
+  * in the 3-rd move Alice again has to perform the 1-st operation. All characters of the string are '1', game over. 
+
+Alice spends 2 dollars while Bob spends 0 dollars. Hence, Bob always wins.
+
+The problem statement has recently been changed. View the changes.
+
+×
+
+B2. Palindrome Game (hard version)
+
+time limit per test
+
+1 second
+
+memory limit per test
+
+256 megabytes
+
+input
+
+standard input
+
+output
+
+standard output
+
+The only difference between the easy and hard versions is that the given
+string s in the easy version is initially a palindrome, this condition is not
+always true for the hard version.
+
+A palindrome is a string that reads the same left to right and right to left.
+For example, "101101" is a palindrome, while "0101" is not.
+
+Alice and Bob are playing a game on a string s of length n consisting of the
+characters '0' and '1'. Both players take alternate turns with Alice going
+first.
+
+In each turn, the player can perform one of the following operations:
+
+  1. Choose any i (1≤i≤n), where s[i]= '0' and change s[i] to '1'. Pay 1 dollar. 
+  2. Reverse the whole string, pay 0 dollars. This operation is only allowed if the string is currently not a palindrome, and the last operation was not reverse. That is, if Alice reverses the string, then Bob can't reverse in the next move, and vice versa. 
+
+Reversing a string means reordering its letters from the last to the first.
+For example, "01001" becomes "10010" after reversing.
+
+The game ends when every character of string becomes '1'. The player who
+spends minimum dollars till this point wins the game and it is a draw if both
+spend equal dollars. If both players play optimally, output whether Alice
+wins, Bob wins, or if it is a draw.
+
+Input
+
+The first line contains a single integer t (1≤t≤103). Then t test cases
+follow.
+
+The first line of each test case contains a single integer n (1≤n≤103).
+
+The second line of each test case contains the string s of length n,
+consisting of the characters '0' and '1'. It is guaranteed that the string s
+contains at least one '0'.
+
+Note that there is no limit on the sum of n over test cases.
+
+Output
+
+For each test case print a single word in a new line:
+
+  * "ALICE", if Alice will win the game, 
+  * "BOB", if Bob will win the game, 
+  * "DRAW", if the game ends in a draw. 
+
+Example
+
+Input
+
+Copy
+
+    
+    
+    3
+    3
+    110
+    2
+    00
+    4
+    1010
+    
+
+Output
+
+Copy
+
+    
+    
+    ALICE
+    BOB
+    ALICE
+    
+
+Note
+
+In the first test case of example,
+
+  * in the 1-st move, Alice will use the 2-nd operation to reverse the string, since doing the 1-st operation will result in her loss anyway. This also forces Bob to use the 1-st operation. 
+  * in the 2-nd move, Bob has to perform the 1-st operation, since the 2-nd operation cannot be performed twice in a row. All characters of the string are '1', game over. 
+
+Alice spends 0 dollars while Bob spends 1 dollar. Hence, Alice wins.
+
+In the second test case of example,
+
+  * in the 1-st move Alice has to perform the 1-st operation, since the string is currently a palindrome. 
+  * in the 2-nd move Bob reverses the string. 
+  * in the 3-rd move Alice again has to perform the 1-st operation. All characters of the string are '1', game over. 
+
+Alice spends 2 dollars while Bob spends 0 dollars. Hence, Bob wins.
+
+The problem statement has recently been changed. View the changes.
+
+×
+
+C. Sequence Pair Weight
+
+time limit per test
+
+2 seconds
+
+memory limit per test
+
+256 megabytes
+
+input
+
+standard input
+
+output
+
+standard output
+
+The weight of a sequence is defined as the number of unordered pairs of
+indexes (i,j) (here i<j) with same value (ai=aj). For example, the weight of
+sequence a=[1,1,2,2,1] is 4. The set of unordered pairs of indexes with same
+value are (1,2), (1,5), (2,5), and (3,4).
+
+You are given a sequence a of n integers. Print the sum of the weight of all
+subsegments of a.
+
+A sequence b is a subsegment of a sequence a if b can be obtained from a by
+deletion of several (possibly, zero or all) elements from the beginning and
+several (possibly, zero or all) elements from the end.
+
+Input
+
+Each test contains multiple test cases. The first line contains the number of
+test cases t (1≤t≤105). Description of the test cases follows.
+
+The first line of each test case contains a single integer n (1≤n≤105).
+
+The second line of each test case contains n integers a1,a2,…,an (1≤ai≤109).
+
+It is guaranteed that the sum of n over all test cases does not exceed 105.
+
+Output
+
+For each test case, print a single integer — the sum of the weight of all
+subsegments of a.
+
+Example
+
+Input
+
+Copy
+
+    
+    
+    2
+    4
+    1 2 1 1
+    4
+    1 2 3 4
+    
+
+Output
+
+Copy
+
+    
+    
+    6
+    0
+    
+
+Note
+
+  * In test case 1, all possible subsegments of sequence [1,2,1,1] having size more than 1 are: 
+    1. [1,2] having 0 valid unordered pairs; 
+    2. [2,1] having 0 valid unordered pairs; 
+    3. [1,1] having 1 valid unordered pair; 
+    4. [1,2,1] having 1 valid unordered pairs; 
+    5. [2,1,1] having 1 valid unordered pair; 
+    6. [1,2,1,1] having 3 valid unordered pairs. 
+Answer is 6.
+
+  * In test case 2, all elements of the sequence are distinct. So, there is no valid unordered pair with the same value for any subarray. Answer is 0. 
+
+The problem statement has recently been changed. View the changes.
+
+×
+
+D. MEX Tree
+
+time limit per test
+
+1.5 seconds
+
+memory limit per test
+
+256 megabytes
+
+input
+
+standard input
+
+output
+
+standard output
+
+You are given a tree with n nodes, numerated from 0 to n−1. For each k between
+0 and n, inclusive, you have to count the number of unordered pairs (u,v),
+u≠v, such that the MEX of all the node labels in the shortest path from u to v
+(including end points) is k.
+
+The MEX of a sequence of integers is the smallest non-negative integer that
+does not belong to the sequence.
+
+Input
+
+The first line contains a single integer t (1≤t≤104) — the number of test
+cases.
+
+The first line of each test case contains a single integer n (2≤n≤2⋅105).
+
+The next n−1 lines of each test case describe the tree that has to be
+constructed. These lines contain two integers u and v (0≤u,v≤n−1) denoting an
+edge between u and v (u≠v).
+
+It is guaranteed that the given edges form a tree.
+
+It is also guaranteed that the sum of n for all test cases does not exceed
+2⋅105.
+
+Output
+
+For each test case, print n+1 integers: the number of paths in the tree, such
+that the MEX of all the node labels in that path is k for each k from 0 to n.
+
+Example
+
+Input
+
+Copy
+
+    
+    
+    2
+    4
+    0 1
+    0 2
+    2 3
+    2
+    1 0
+    
+
+Output
+
+Copy
+
+    
+    
+    1 2 1 1 1 
+    0 0 1 
+    
+
+Note
+
+  1. In example case 1, ![](https://espresso.codeforces.com/195f6acaf03c7d12626f7984e2a45f18fef5ee1c.png)
+    * For k=0, there is 1 path that is from 2 to 3 as MEX([2,3])=0. 
+    * For k=1, there are 2 paths that is from 0 to 2 as MEX([0,2])=1 and 0 to 3 as MEX([0,2,3])=1. 
+    * For k=2, there is 1 path that is from 0 to 1 as MEX([0,1])=2. 
+    * For k=3, there is 1 path that is from 1 to 2 as MEX([1,0,2])=3
+    * For k=4, there is 1 path that is from 1 to 3 as MEX([1,0,2,3])=4. 
+  2. In example case 2, ![](https://espresso.codeforces.com/63cf8c7e9ffb8e527e5a691abb869204af2ad48a.png)
+    * For k=0, there are no such paths. 
+    * For k=1, there are no such paths. 
+    * For k=2, there is 1 path that is from 0 to 1 as MEX([0,1])=2. 
+
+The problem statement has recently been changed. View the changes.
+
+×
+
+E. Partition Game
+
+time limit per test
+
+3 seconds
+
+memory limit per test
+
+256 megabytes
+
+input
+
+standard input
+
+output
+
+standard output
+
+You are given an array a of n integers. Define the cost of some array t as
+follows:
+
+cost(t)=∑x∈set(t)last(x)−first(x),
+
+where set(t) is the set of all values in t without repetitions, first(x), and
+last(x) are the indices of the first and last occurrence of x in t,
+respectively. In other words, we compute the distance between the first and
+last occurrences for each distinct element and sum them up.
+
+You need to split the array a into k consecutive segments such that each
+element of a belongs to exactly one segment and the sum of the cost of
+individual segments is minimum.
+
+Input
+
+The first line contains two integers n, k (1≤n≤35000, 1≤k≤min(n,100)).
+
+The second line contains n integers a1,a2,…,an (1≤ai≤n).
+
+Output
+
+Output the minimum sum of the cost of individual segments.
+
+Examples
+
+Input
+
+Copy
+
+    
+    
+    7 2
+    1 6 6 4 6 6 6
+    
+
+Output
+
+Copy
+
+    
+    
+    3
+    
+
+Input
+
+Copy
+
+    
+    
+    7 4
+    5 5 5 5 2 3 3
+    
+
+Output
+
+Copy
+
+    
+    
+    1
+    
+
+Note
+
+In the first example, we can divide the array into [1,6,6,4] and [6,6,6]. Cost
+of [1,6,6,4] will be (1−1)+(3−2)+(4−4)=1 and cost of [6,6,6] will be 3−1=2.
+Total cost would be 1+2=3.
+
+In the second example, divide the array into [5,5],[5],[5,2,3] and [3]. Total
+Cost would be 1+0+0+0=0.
+
+  
+
+Codeforces (c) Copyright 2010-2021 Mike Mirzayanov
+
+The only programming contests Web 2.0 platform
+

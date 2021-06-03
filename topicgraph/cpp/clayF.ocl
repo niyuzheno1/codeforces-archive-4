@@ -1,0 +1,28 @@
+//no-unlocked
+int n, m;
+int f[3d5+10][28], A[3d5+10], B[3d5+10];
+char s[3d5+10];
+graph g;
+int res[];
+{ 
+    rd(n, m, s, (A--,B--)(m));
+    rep(i, n) s[i] -= 'a';
+    g.setDirectEdge(n, m, A, B);
+    int ret =  g.TopologicalSort(res);
+    if(ret == 0){
+        wt(-1);
+        exit(0);
+    }
+    int ans = 0;
+    rep[res](i, n){
+        ++f[i][s[i]];
+        ans >?= f[i][s[i]];
+        rep[g.edge[i]](j, g.es[i]){
+            rep(k, 28){
+                f[j][k] >?= f[i][k];
+                ans >?= f[j][k]; 
+            }
+        }
+    }
+    wt(ans);
+}

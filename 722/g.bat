@@ -1,0 +1,1 @@
+python %CFTOOL%\gcpbi.py %1

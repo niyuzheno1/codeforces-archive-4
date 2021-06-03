@@ -1,0 +1,43 @@
+//no-unlocked
+int n, a[1d3+10];
+int stk[1d3+10], stsz;
+bool empty(){
+    if(stsz < 0) stsz = 0;
+    return stsz <= 0;
+}
+int top(){
+    return stk[stsz-1];
+}
+void push(int x){
+    stk[stsz++] = x;
+}
+
+{ 
+    REP(rd_int()){
+        stsz = 0;
+        rd(n, a(n));
+        rep(i, n){
+            if(a[i] == 1){
+                push(1);
+            }else{
+                if(top() + 1 == a[i]){
+                    stk[stsz-1] = a[i];
+                }else{
+                    while(!empty() && top() + 1 != a[i])
+                        stsz--;
+                    if(!empty()){
+                        stk[stsz-1] = a[i];
+                    }
+                }
+            }
+            string output = "";
+            rep(j, stsz-1){
+                output += to_string(stk[j]);
+                output += ".";
+            }
+            if(!empty())
+                output += to_string(stk[stsz-1]); 
+            wt(output.c_str());
+        }
+    }
+}

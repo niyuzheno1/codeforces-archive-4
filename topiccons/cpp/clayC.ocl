@@ -1,0 +1,19 @@
+//no-unlocked
+char s[1d3+10];
+int n;
+{ 
+  rd(s@n);
+  int curone = 0;
+  int curzero = 0;
+  rep(i, n){
+      if(s[i] == '0'){
+        wt(3, curzero + 1);
+        curzero = curzero + 1;
+        curzero %= 4;
+      }else{
+        wt(1, curone + 1);
+        curone = curone + 2;
+        curone %= 4;
+      }
+  }
+}

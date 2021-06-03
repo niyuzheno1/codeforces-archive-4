@@ -1,0 +1,16 @@
+//no-unlocked
+int n;
+char ans[2d5+10];
+{ 
+    rd(n);
+    rep(i,n){
+        if(i % 4 == 0) ans[i] = 0;
+        if(i % 4 == 1) ans[i] = 1;
+        if(i % 4 == 2) ans[i] = 1;
+        if(i % 4 == 3) ans[i] = 0;
+    }
+    rep(i, n){
+        ans[i] += 'a';
+    }
+    wt(ans);
+}

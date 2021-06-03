@@ -1,0 +1,13 @@
+//no-unlocked
+int n, a[24], id[24];
+int ans[24];
+{ 
+    rd(n, a(n));
+    rep(i, n) id[i] = i;
+    sortA(n, a, id);
+    rep(i, n){
+        ans[id[i]] = a[(i+1)%n];
+    }
+
+    wt(ans(n));
+}

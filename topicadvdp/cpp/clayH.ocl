@@ -1,0 +1,14 @@
+//no-unlocked
+int n;
+ll x[1d6+10], y[], a[], f[];
+dynamic_hull_max cht;
+{
+    rd(n, (x,y,a)(n));
+    sortA(n, x, y, a);
+    cht.insert_line(0,0);
+    rep(i, n){
+        f[i] = cht.eval(y[i]) + x[i]*y[i] - a[i];
+        cht.insert_line(-x[i], f[i]);
+    }
+    wt(max(f(n)));
+}

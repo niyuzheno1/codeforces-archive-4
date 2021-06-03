@@ -1,0 +1,71 @@
+//no-unlocked
+ll n, k, s;
+int ans[2d5+10], asz;
+{ 
+    bool okay = false;
+    rd(n,k,s);
+    rep(x, k+1){
+        if(okay) break;
+        ll y = k - x;
+        if(x + (n-1)*y == s){
+            okay = true;
+            int curx = 1;
+            rep(i, y){
+                curx = curx == 1? n : 1 ;
+                ans[asz++] = curx;
+            }
+            rep(i, x){
+                if(curx == 1){
+                    if(i % 2 == 0){
+                        ans[asz++] = curx+1;
+                    }else{
+                        ans[asz++] = curx;
+                    }
+                }else{
+                    if(i % 2 == 0){
+                        ans[asz++] = curx-1;
+                    }else{
+                        ans[asz++] = curx;
+                    }
+                }             
+            }
+        }
+    }
+    if(!okay){
+        rep(x, k+1){
+            ll y = k - x - 1;
+            if(okay) break;
+            if(y < 0) continue;
+            ll tmp =  s-(x+(n-1)*y);
+            if(1 <= tmp <= n-1){
+                okay = true;
+                int curx = 1;
+                rep(i, y){
+                    curx = curx == 1? n : 1 ;
+                    ans[asz++] = curx;
+                }
+                if(curx == 1){
+                    curx = curx + tmp;
+                    ans[asz++] = curx;
+                }else{
+                    curx = curx - tmp;
+                    ans[asz++] = curx;
+                }
+                rep(i, x){
+                    if(curx == 1){
+                        curx = curx + 1;
+                        ans[asz++] = curx;
+                    }else{
+                        curx = curx-1;
+                        ans[asz++] = curx;
+                    }
+                }
+            }
+        }
+    }
+    if(!okay) wt("NO");
+    else{
+        wt("YES");
+        wt(ans(asz));
+    }
+}

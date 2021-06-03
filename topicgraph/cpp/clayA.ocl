@@ -1,0 +1,20 @@
+//no-unlocked
+int n, t, a[3d4];
+int A[3d4+20], B[], esz;
+
+void add_edge(int x, int y){
+    arrInsert(esz, esz, A, x, B, y);
+}
+
+graph g;
+{ 
+    rd(n,t, a(n-1));
+    --t;
+    rep(i, n-1) add_edge(i, i+a[i]);
+    g.setEdgeRootedTree
+    g.setDirectEdge(n, esz, A, B);
+    int ans = g.getDist(0, t);
+    wt(if[ans != -1, "YES", "NO"]);
+    
+    
+}

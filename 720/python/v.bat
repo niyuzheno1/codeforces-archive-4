@@ -1,0 +1,1 @@
+python ..\gss.py 1521 "ChNBSQNF"

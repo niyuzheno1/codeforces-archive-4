@@ -1,0 +1,35 @@
+//no-unlocked
+int n, u[1d5+10], v[];
+ll a[1d5+10], b[], dp[];
+graph t;
+dynamic_hull_min cht[1d5+10];
+int chtsz;
+int dfs(int x){
+    if(t.es[x] == 0){
+        cht[chtsz].insert_line(b[x],0);
+        return chtsz++;
+    }
+    // update here when you are going into a subtree/graph
+    vector<int> chi;
+    rep[t.edge[x]](i, t.es[x]) chi.push_back(dfs(i));
+    sort(chi.begin(), chi.end(), [&](const int &xx, const int& yy){
+        return cht[xx].cht.size() > cht[yy].cht.size();
+    } );
+    
+    rep(i, 1, chi.size()){
+        for(auto & x : cht[chi[i]].cht){
+            cht[chi[0]].cht.insert_line(x.m, x.b);
+        }
+    }
+    dp[x] = cht[chi[0]].eval(a[x]);
+    cht[chi[0]].insert_line(b[x], dp[x]);
+    return chi[0];
+    // update here when you are going out of a subtree/graph
+}
+
+{ 
+    rd(n, a(n), b(n), (u--,v--)(n-1));
+    t.setEdgeRootedTree(n, n-1, u, v);
+    dfs(0);
+    wt(dp(n));
+}

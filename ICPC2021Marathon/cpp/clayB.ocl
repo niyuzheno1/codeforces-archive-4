@@ -1,0 +1,33 @@
+//no-unlocked
+int totalcases, n, k, m;
+int w[5d3+10], u[], A[], B[], marked[], backmarked[], ans[], asz, rsz;
+vector<int> regions[];
+
+{ 
+    rd(totalcases);
+    rep(totalcases){
+        rsz =0;
+        asz = 0;
+        memset(w, 0, sizeof(w)); memset(u, 0, sizeof(u));
+        memset(A, 0, sizeof(A)); memset(B, 0, sizeof(B));
+        memset(marked, 0, sizeof(marked)); memset(backmarked, 0, sizeof(backmarked));
+        memset(ans, 0, sizeof(ans));
+        rep(i, 5d3+10) regions[i].clear();
+        rd(n, w(n), k, (u--)(k), m, (A--,B--)(m) );
+        rep(i, k) marked[u[i]] = 1;
+        rep(i, n-1) if(!marked[i]) backmarked[i] = 1;
+        rep(i, n) if(backmarked[i]) ans[asz++] = i;
+        rep(i, asz) ++ans[i];
+        wt(asz, ans(asz));
+        rep(i, 1, n) if(marked[i] || backmarked[i]) regions[rsz++].push_back(i);
+        rep(i, 1, n) if(!marked[i] && !backmarked[i]) regions[rsz].push_back(i);
+        regions[rsz++].push_back(0);
+        
+        wt(rsz);
+        rep(i, rsz){
+            int m = regions[i].size();
+            rep(j, m) ++regions[i][j];
+            wt(m, (regions[i])(m));
+        }
+    }
+}

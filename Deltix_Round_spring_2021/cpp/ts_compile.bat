@@ -1,0 +1,1 @@
+python3  %CFTOOL%\time_stamp_compile.py %1

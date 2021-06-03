@@ -1,0 +1,23 @@
+//no-unlocked
+const int MN = 1d5+10;
+ll n, k, a[MN], dp[MN], ndp[MN];
+ll * b = &a[1];
+segtree<ll> t;
+{ 
+  rd(n, k, b(n));
+  t.walloc(n+1);
+  ndp[0] = 1;
+  rep(k+1){
+        t.setN(n+1);
+        rep(i, n+2) dp[i] = ndp[i];
+        t.build();
+        rep(i, 0, n+1){
+            if(i == 0) ndp[i] = 0;
+            else ndp[i] = t.getSum(0, a[i]);
+            
+            t.change(a[i], a[i]+1, dp[i]);
+        }
+  }
+ 
+  wt(sum(ndp(n+1)));
+}

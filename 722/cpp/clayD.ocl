@@ -1,0 +1,27 @@
+//no-unlocked
+int n;
+int f[1d3+10][1d3+10], g[1d6+10];
+{ 
+    rd(n);
+    f[0][0] = 1;
+    g[0] = 1;
+    f[2][1] = 1;
+    g[2] = 1;
+    rep(i, 4, 2*n+1, 2){
+        rep(x, 1, i){
+            auto r  = i-2*x + 1;
+            if(r > 1){
+                f[i][x] = f[i-2*x][x];
+            }else{
+                f[i][x] = g[1-r];
+            }
+        }
+        rep(x, 1, i){
+            g[i] += f[i][x];
+        }
+    }
+    rep(i, 2, 2*n+1, 2){
+        wt(i, g[i]);
+    }
+    
+}

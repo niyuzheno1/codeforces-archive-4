@@ -1,0 +1,76 @@
+//no-unlocked
+const int dbg = 0;
+int totalcases, n, k, m;
+int w[5d3+10], u[], A[], B[], marked[], backmarked[], ans[], asz, rsz, in[], out[], vis[];
+map<int, VI> regions;
+graph g;
+int dep[], vx[], pa[];
+void dfs(int x, int cdep, int par){
+    if(vis[x]) return;
+    vis[x] = 1;
+    dep[x] = cdep;// update here when you are going into a subtree/graph
+    pa[x] = par;
+    rep[g.edge[x]](i, g.es[x]) dfs(i, cdep+1, x);
+    // update here when you are going out of a subtree/graph
+}
+bool mark(int x){
+    if(x == -1) return false;
+    return marked[x] || backmarked[x];
+}
+
+{ 
+    rd(totalcases);
+    rep(tcases, totalcases){
+        if(dbg) wt("Case ", tcases, ":")
+        // unionFind dsu;
+        // dsu.walloc(n+1);
+        // dsu.init(n+1);
+        rsz =0;
+        asz = 0;
+        memset(vis,0, sizeof(vis));
+        memset(pa, 0, sizeof(pa)); memset(vx, 0, sizeof(vx));
+        memset(w, 0, sizeof(w)); memset(u, 0, sizeof(u));  memset(vx, 0, sizeof(vx));
+        memset(A, 0, sizeof(A)); memset(B, 0, sizeof(B)); memset(ans, 0, sizeof(ans));
+        memset(marked, 0, sizeof(marked)); memset(backmarked, 0, sizeof(backmarked));
+        memset(in, 0, sizeof(in)); memset(out, 0, sizeof(out));memset(dep, 0, sizeof(dep));
+        regions.clear();
+        rd(n, w(n), k, (u--)(k), m, (A--,B--)(m) );
+        
+        g.setDirectEdge(n, m, A, B);
+        rep(i, m) ++out[A[i]], ++in[B[i]];
+        dfs(0, 0, -1);
+        rep(i, k) marked[u[i]] = 1;
+        rep(i, n) vx[i] = i;
+        sortA(n, dep, vx);
+        rep[vx](i, n) if(pa[i] != -1 && in[i] == 1 && out[i] == 1 && out[pa[i]] != 1 && !mark(i) ) backmarked[i] = 1; /**&& !mark(par(i)) */
+        rep(i,n) if((in[i] != 1 || out[i] != 1) && !mark(i)) backmarked[i] = 1;
+        rep(i, n) if(mark(i)) regions[i].push_back(i);
+        rep[vx](i, n) {
+            if(pa[i] != -1 && in[i] == 1 && out[i] == 1){
+                if(mark(i)) continue;
+                int u = i, prev = -1;
+                while(!mark(prev) && out[u] == 1){
+                    prev = u;
+                    u = pa[u];
+                }
+                pa[u] = prev;
+                if(prev != -1 && !mark(prev)){
+                    backmarked[prev] = 1;
+                }
+                regions[prev].push_back(i);
+            }
+        }
+        rep(i, n) if(backmarked[i]) ans[asz++] = i;
+        rep(i, asz) ++ans[i];
+        wt(asz, ans(asz));
+        wt(regions.size());
+        for(auto & x : regions){
+            VI & y = x.second;
+            asz = 0;
+            rep(i, y.size()){
+                ans[asz++] = y[i]+1;
+            }
+            wt(asz, ans(asz));
+        }
+    }
+}

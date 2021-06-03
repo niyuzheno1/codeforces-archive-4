@@ -1,0 +1,1 @@
+.\testset\testset%1.exe 5450 < ins.txt > input.txt

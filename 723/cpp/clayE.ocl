@@ -1,0 +1,26 @@
+//no-unlocked
+int N; char S[1d5+2];
+int ind[4], rev[4], arr[1d5];
+int ress; char res[1d5+2];
+const char a[6] = "ANTO";
+int r[128];
+{
+    rep(i, 4) r[a[i]] = i;
+    REP(rd_int()){
+        int i, j, k;
+        ll opt = -1, cur;
+        rd(S@N);
+        rep_perm(ind, 4){
+            rep(i, 4) rev[ind[i]] = i;
+            rep(i, N) arr[i] = rev[r[S[i]]];
+            cur = inversion(N, arr);
+            if(opt < cur){
+                opt = cur;
+                ress = 0;
+                rep[ind](i,4) REP(arrCountVal(N, S, a[i])) res[ress++] = a[i]; 
+            }
+        }
+        res[N] = '\0';
+        wt(res);
+    }
+}

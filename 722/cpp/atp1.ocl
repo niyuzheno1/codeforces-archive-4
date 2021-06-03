@@ -1,0 +1,23 @@
+ll dfs(int x, ll par){
+    if(g.es[x] == 0){
+        if(abs(l[x]-par) > abs(r[x] - par)){
+            return abs(l[x]-par);
+        }else{
+            return abs(r[x] - par);
+        }
+    }
+    ll cntval = 0;
+    if(abs(l[x]-par) > abs(r[x] - par)){
+        cntval = l[x];
+    }else{
+        cntval = r[x];
+    }
+    
+    ll ret = abs(cntval - par);
+    if(x == 0) ret = 0;
+    rep[g.edge[x]](i, g.es[x]) {
+        auto tmp = dfs(i, cntval);
+        ret += tmp;
+    }
+    return ret;
+}

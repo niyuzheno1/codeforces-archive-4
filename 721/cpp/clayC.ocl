@@ -1,0 +1,16 @@
+//no-unlocked
+
+ll n, a[1d5+10], b[1d5+10];
+{ 
+    REP(rd_int()){
+        rd(n, a(n));
+        int vn = coordcomp(n, a);
+        ll ans = 0;
+        rep(i, vn+2) b[i] = 0;
+        rrep(i, n){
+            ans += b[a[i]]*(i+1);
+            b[a[i]] += n-i;
+        }
+        wt(ans);
+    }
+}

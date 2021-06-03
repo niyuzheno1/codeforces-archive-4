@@ -1,0 +1,14 @@
+//no-unlocked
+const int MN = 1d5+10;
+dynamic_hull_min cht;
+
+ll n, a[MN], b[], f[];
+{ 
+    rd(n, a(n), b(n));
+    cht.insert_line(b[0], 0);
+    rep(i, 1, n){
+        f[i] = cht.eval(a[i]);
+        cht.insert_line(b[i], f[i]);
+    }
+    wt(f[n-1]);
+}

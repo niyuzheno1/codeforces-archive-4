@@ -1,0 +1,30 @@
+//no-unlocked
+int n, m;
+int A[1d5+10], B[], esz, res[];
+VI p, a;
+
+void add_edge(int x, int y){
+    arrInsert(esz, esz, A, x, B, y);
+}
+graph g;
+
+{ 
+  rd(n, esz, (A--, B--)(esz));
+  g.setEdge(n, esz, A, B);
+  if(g.bipartite(res) == 0){
+      wt(-1);
+      exit(0);
+  }else{
+    rep(i, n){
+        if(res[i] == 0){
+            p.push_back(i+1);
+        }else{
+            a.push_back(i+1);
+        }
+    }
+    wt(p.size());
+    wt(p(p.size()));
+    wt(a.size());
+    wt(a(a.size()));
+  }
+}

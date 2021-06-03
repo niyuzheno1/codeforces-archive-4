@@ -1,0 +1,38 @@
+//no-unlocked
+char a[2250];
+char b[2250];
+int n, m;
+{ 
+    rd(n,m);
+    int cur = 0;
+    rep(i, n){
+        a[i] = '1';
+        b[i] = '1';
+        ++cur;++cur;
+    }
+    rrep(i, n){
+        if(cur <= m) break;
+        if(i == n-1){
+            b[i] = '9';
+            --cur;
+        }else{
+            b[i] = '8';
+            cur -= 2;
+        }
+    }
+    int diff =  m- cur;
+    string sa, sb;
+    rep(i, n) sa += a[i];
+    rep(i, n) sb += b[i];
+    int idx = 0;
+    while(diff){
+        if(idx % 2 == 0){
+            sa = '1' + sa;
+        }else{
+            sb = '1' + sb;
+        }
+        --diff;
+        ++idx;
+    }
+    wt(sa.c_str()); wt(sb.c_str());
+}

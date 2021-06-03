@@ -1,0 +1,1 @@
+python C:\Users\zachn\OneDrive\Documents\CFTOOLS\sub.py %1 1515 "GNU G++17 7.3.0"

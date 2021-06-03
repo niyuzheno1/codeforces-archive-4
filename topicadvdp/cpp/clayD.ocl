@@ -1,0 +1,25 @@
+//no-unlocked
+int n, a[1d5+10], b[], h[];
+segtree<ll> t;
+
+{ 
+    rd(n, (a,b,h)(n));
+    int dis = coordcomp(n, b, n, a);
+    rep(i, n) (b[i], a[i]) = (-b[i], -a[i]);
+    t.walloc(dis+20);
+    t.setN(dis+20);
+    t.build();
+    sortA(n, b, a, h);
+    rep(i, n) (b[i], a[i]) = (-b[i], -a[i]);
+    rep(i, n) ++a[i], ++b[i];
+
+    ll ans = 1;
+    rep(i, n){
+        ll tmp = 1;
+        tmp >?= -t.getMinVal(1 , b[i])+h[i];
+        ans >?= tmp;
+        auto tmp2 = -t.getSum(a[i],a[i]+1);
+        if(tmp2 < tmp) t.change(a[i], a[i]+1 , -tmp);
+    }
+    wt(ans);
+}

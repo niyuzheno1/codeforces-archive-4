@@ -1,0 +1,22 @@
+0:00:00 Intro
+0:01:20 Attempting F
+0:14:57 Submitting F
+0:19:18 Submitting F
+0:20:38 Why_previous_method_is_not_working?
+0:23:43 Compiling Data Generator for  F
+0:25:10 Compiling Data Generator for  F
+0:30:19 Compiling Judge for  F
+0:30:30 Compiling Judge for  F
+0:30:45 Compiling Judge for  F
+0:31:14 Compiling Judge for  F
+0:33:29 Compiling Judge for  F
+0:33:35 Compiling Data Generator for  F
+0:34:33 Compiling Data Generator for  F
+0:36:47 Compiling Judge for  F
+0:41:16 Attempting G
+0:56:38 Submitting G
+1:01:26 Attempting H
+1:50:41 Submitting H
+1:50:51 Submitting H
+1:51:05 Submitting H
+1:53:03 Submitting H

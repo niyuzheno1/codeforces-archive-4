@@ -1,0 +1,29 @@
+//no-unlocked
+int n, k, d, a[5d5+10];
+int * aa = &a[1];
+int dp[5d5+10];
+int pre[5d5+10];
+segtree<int> t;
+{ 
+    rd(n, k, d, aa(n));
+    sortA(n, aa);
+    t.walloc(n+2);
+    t.setN(n+2);
+    t.change(0, 1, 1);
+    int j = 1;
+    rep(i, n){
+        
+        while(j <= n && a[j]-a[i+1] <= d) ++j;
+        pre[i] = j-1;
+    }
+    rep(i, n){
+        int val = t.getSum(i,i+1);
+        if(val <= 0) continue;
+        int left = max(0, i+k);
+        int right = min(n, pre[i]);
+        if(left > right) continue;
+        t.change(left, right+1, 1);
+    }
+    
+    wt(if[t.getSum(n,n+1)>0, "YES", "NO"]);
+}

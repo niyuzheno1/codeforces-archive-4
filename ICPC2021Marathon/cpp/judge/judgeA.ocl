@@ -1,0 +1,125 @@
+#include<random>
+
+
+void runcmd(string a, string b, string c){
+    string cmd;
+    cmd += a; cmd += b; cmd += c;
+    system(cmd.c_str());
+}
+
+ifstream fin;
+ifstream fout;
+
+int n, w[5d3+10], k, u[], m, A[], B[], marked[], reg[], wh[], regsz, vis[], visreg[];
+graph g;
+VI regions[];
+int min_w_rp[], max_w_rp[];
+bool dfs(int x){
+    ++vis[x];
+    ++visreg[reg[x]];
+    wh[reg[x]] += w[x];
+    if(x == n-1){
+        rep(i, regsz){
+            if(visreg[i] == 0) continue;
+            rep(j, regions[i].size()) if(marked[regions[i][j]] && vis[regions[i][j]] <= 0)  return false;
+            // compute the min and max
+            if(wh[i] < min_w_rp[i]) min_w_rp[i] = wh[i];
+            if(wh[i] > max_w_rp[i]) max_w_rp[i] = wh[i];
+        }
+        --vis[x];
+        --visreg[reg[x]];
+        wh[reg[x]] -= w[x];
+        return true;
+    }
+    bool ret = true;
+    rep[g.edge[x]](i, g.es[x]){
+        auto tmpret = dfs(i);
+        ret = ret && tmpret;
+    }
+    --vis[x];
+    --visreg[reg[x]];
+    wh[reg[x]] -= w[x];
+    return ret;
+}
+
+bool process(){
+    rep(i, 5d3+9) regions[i].clear();
+    memset(visreg, 0, sizeof(visreg));
+    memset(min_w_rp, 0x7f, sizeof(min_w_rp));
+    memset(max_w_rp, 0, sizeof(max_w_rp));
+    memset(w, 0, sizeof(w)); memset(u, 0, sizeof(u)); memset(A, 0, sizeof(A)); memset(B, 0, sizeof(B)); memset(marked, 0, sizeof(marked));
+    memset(reg, 0xff, sizeof(reg)); memset(wh, 0, sizeof(wh)); memset(vis, 0, sizeof(vis));
+    fin >> n; rep(i, n) fin >> w[i]; fin >> k;
+    rep(i, k) fin >> u[i], --u[i];
+    fin >> m; rep(i, m) fin >> A[i] >> B[i], --A[i], --B[i];
+    g.setDirectEdge(n, m, A, B);
+    rep(i, k) ++marked[u[i]];
+    int q; fout >> q;
+    rep(i, q){
+        int x; 
+        fout >> x; --x;
+        ++marked[x];
+    }
+    rep(i, n) if(marked[i] > 1) return false;
+    fout >> regsz;
+    rep(i, regsz){
+        int sn; 
+        fout >> sn;
+        bool flag = false;
+        rep(j, sn){ int x;  fout >> x; --x; regions[i].push_back(x); 
+            if(marked[x]) flag = true;
+            if(reg[x] != -1) return false; //two region intersect
+            reg[x] = i; 
+        }
+        if(!flag) return false; // at least one marked node
+    }
+    rep(i, n) if(reg[i] == -1) return false;
+    auto res = dfs(0); //enumerate all the full path
+    if(res == false){
+        return false;
+    }
+    rep(i, regsz){
+        double scorex = min_w_rp[i];
+        double scorey = max_w_rp[i];
+        if(scorex/scorey < 0.9){
+            return false;
+        }
+        wt("metadata: ", scorex/scorey );
+    }
+    return true;
+}
+
+{
+    int totalcases = 100;
+    srand (12304);
+    rep(totalcases){
+        int seed = rand()%10000;
+        wt("seeds", seed);
+        bool ac = true;
+        string cmd1; 
+        runcmd("C:\\Users\\zachn\\OneDrive\\Documents\\codeforces\\ICPC2021Marathon\\cpp\\testset\\testsetA.exe " , to_string(seed), "  < ins.txt > input.txt " );
+        runcmd("C:\\Users\\zachn\\OneDrive\\Documents\\codeforces\\ICPC2021Marathon\\cpp\\F\\main.exe < input.txt > output.txt" , "" ,"");
+        fin = ifstream("input.txt");
+        fout= ifstream("output.txt");
+        int totalcases;
+        fin >> totalcases;
+        rep(tcase, totalcases){
+            if(!process()){
+                wt("Case:", tcase+1);
+                ac = false;
+                break;
+            }
+        }
+        if(ac) wt( "Successfully Pass All the Test Cases!");
+        else{
+            wt(w(n));
+            wt("wrong answer");
+            exit(0);
+        }
+        fin.close();
+        fout.close();
+    }
+    
+
+    return 0;
+}

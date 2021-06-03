@@ -1,0 +1,38 @@
+//no-unlocked
+ll segtree_rh_merge (ll a, ll b) {
+    return min(a,b);
+}
+
+ll segtree_rh_apply(ll f, ll b){
+    return f;
+}
+
+ll segtree_rh_compose (ll f, ll g) {
+    return min(f,g);
+}
+
+int n;
+ll a[2d5+10], l[], r[], *b;
+ll c[], ans[];
+int asz;
+segtree_rh<ll, ll> t;
+{ 
+    b = &a[1];
+    rd(n, b(n), (l,r)(n-1));
+    rep(i, 1, n+1) c[i] = a[i];
+    rep(i, 2, n+1){
+        a[i] += a[i-1];
+    }
+    t.malloc(n+2);
+    t.setN(n, int_inf, 0);
+    t.build();
+    t.change(1, 2, a[0]);
+    ans[asz++] = 0;
+    rep(i, 2, n+1){
+        int idx = i-2;
+        int tmp = t.get(l[idx],r[idx]+1);
+        t.change(i, i+1, tmp +c[i]  );
+        ans[asz++] = (tmp + a[i]);
+    }
+    wt(ans(asz));
+}

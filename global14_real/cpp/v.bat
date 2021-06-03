@@ -1,0 +1,1 @@
+python C:\Users\zachn\OneDrive\Documents\CFTOOLS\gss.py 1515 "ChNBSQNF"

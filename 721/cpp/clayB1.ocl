@@ -1,0 +1,35 @@
+//no-unlocked
+int n;
+char s[1d3+10];
+{ 
+    REP(rd_int()){
+        rd(n, s);
+        int zeros = 0;
+        rep(i, n) zeros += (s[i] == '0');
+        if(n % 2 == 0){
+            if(zeros % 4 == 2){
+                wt("BOB");
+            }else{
+                wt("DRAW");
+            }
+        }else{
+            int md = (n-1)>>1;
+            if(s[md] == '1'){
+                if(zeros % 4 == 2){
+                    wt("BOB");
+                }else{
+                    wt("DRAW");
+                }
+            }else{
+                if(zeros % 4 == 1){
+                    wt("BOB");
+                }else if(zeros % 4 == 3){
+                    wt("ALICE");
+                
+                }else{
+                    wt("DRAW");
+                }
+            }
+        }
+    }
+}

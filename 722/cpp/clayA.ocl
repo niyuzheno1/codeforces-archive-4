@@ -1,0 +1,11 @@
+//no-unlocked
+int n, a[110], b[110];
+{ 
+    REP(rd_int()){
+        rd(n, a(n));
+        rep(i, 105) b[i] = 0;
+        rep(i, n) ++b[a[i]];
+        int u = min(a(n));
+        wt(n-b[u]);
+    }
+}
